@@ -1,0 +1,18 @@
+# Dependency directories (never upload these!)
+node_modules/
+
+# Environment variables (security risk - don't upload your MongoDB URI)
+.env
+.env.local
+
+# Logs
+npm-debug.log*
+yarn-error.log*
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Build output
+dist/
+build/

@@ -9,12 +9,15 @@ const dbInsertOne = async (db, collectionName, data) => {
   });
 };
 
-const dbFind = async (db, collectionName, query, limit) => {
+const dbFind = async (db, collectionName, query = {}, options = {}) => {
+  const { projection = {}, sort = {}, limit = 0, skip = 0 } = options;
   return await db
     .collection(collectionName)
     .find(query)
-    .project({ password: 0 })
+    .project(projection)
     .limit(limit)
+    .sort(sort)
+    .skip(skip)
     .toArray();
 };
 

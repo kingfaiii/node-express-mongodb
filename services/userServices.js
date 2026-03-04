@@ -95,7 +95,15 @@ const updateSingleUserService = async (id, userData) => {
 };
 const viewAllUserService = async () => {
   const db = await connectDB();
-  return await dbFind(db, 'users', {}, 3);
+  return await dbFind(
+    db,
+    'users',
+    {},
+    {
+      projection: { password: 0, salt: 0 },
+      limit: 3,
+    },
+  );
 };
 module.exports = {
   registerUserService,

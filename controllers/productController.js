@@ -3,6 +3,8 @@ const {
   createProductService,
   getAllProductService,
   getSingleProductService,
+  updateProductService,
+  deleteProductService,
 } = require('../services/productServices');
 const { sendResponse } = require('../utils/responseHelper');
 
@@ -24,7 +26,7 @@ const getSingleProducts = async (req, res, next) => {
   try {
     const id = req.params.id;
     const singleProduct = await getSingleProductService(id);
-    sendResponse(
+    return sendResponse(
       res,
       200,
       true,
@@ -46,19 +48,44 @@ const createProduct = async (req, res, next) => {
     next(new httpError(error.message || 'Failed to Create Product', 500));
   }
 };
-const updateProduct = (req, res) => {
-  res.status(200).json({ message: req.params.url });
+const updateProduct = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const productData = req.body;
+    const updateProductData = await updateProductService(
+      productData,
+      productId,
+    );
+
+    return sendResponse(res, 200, true, 'Product Update', updateProductData);
+  } catch (error) {
+    next(new httpError(error.message || 'Failed to Update Product', 500));
+  }
 };
-const deleteProduct = (req, res) => {
-  res.status(200).json({ message: req.params.url });
+const deleteProduct = async (req, res, next) => {
+  try {
+    const productId = req.params.id;
+    const deleteProductData = await deleteProductService(productId);
+    return sendResponse(
+      res,
+      200,
+      true,
+      'Successfully Deleted Product',
+      deleteProductData,
+    );
+  } catch (error) {
+    next(new httpError(error.message || 'Failed to Delete Product', 500));
+  }
 };
 const postReview = (req, res) => {
   res.status(200).json({ message: req.params.url });
 };
 
-exports.getAllProducts = getAllProducts;
-exports.getSingleProducts = getSingleProducts;
-exports.createProduct = createProduct;
-exports.updateProduct = updateProduct;
-exports.deleteProduct = deleteProduct;
-exports.postReview = postReview;
+module.exports = {
+  getAllProducts,
+  getSingleProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  postReview,
+};

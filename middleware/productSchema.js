@@ -1,5 +1,12 @@
 const { z } = require('zod');
 
+const productReview = z.object({
+  user: z.string(),
+  name: z.string().min(1),
+  rating: z.coerce.number().int().min(1).max(5),
+  comment: z.string().min(5, { message: 'Must be at least 5 characters' }),
+});
+
 exports.createProduct = z.object({
   productName: z
     .string()
@@ -33,4 +40,7 @@ exports.createProduct = z.object({
     .min(1, { message: 'Your Product Needs a Brand Name' })
     .toLowerCase(),
   isFeatured: z.boolean().default(false),
+  reviews: z.array(productReview).default([]),
+  rating: z.number().default(0),
+  numReviews: z.number().default(0),
 });

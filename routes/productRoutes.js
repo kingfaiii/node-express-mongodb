@@ -9,10 +9,11 @@ router.get('/:id', productController.getSingleProducts);
 router.post(
   '/',
   isUserLogged,
+  isAdmin,
   validate(createProduct),
   productController.createProduct,
 );
-router.put('/:id', productController.updateProduct);
-router.delete('/:id', productController.deleteProduct);
-router.post('/:id/reviews', productController.postReview);
+router.put('/:id', isUserLogged, isAdmin, productController.updateProduct);
+router.delete('/:id', isUserLogged, isAdmin, productController.deleteProduct);
+router.post('/:id/reviews', isUserLogged, productController.postReview);
 module.exports = router;

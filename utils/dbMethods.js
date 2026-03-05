@@ -6,6 +6,7 @@ const dbInsertOne = async (db, collectionName, data) => {
   return await db.collection(collectionName).insertOne({
     ...data,
     createdAt: new Date(),
+    dateModified: new Date(),
   });
 };
 
@@ -24,6 +25,13 @@ const dbFind = async (db, collectionName, query = {}, options = {}) => {
 const dbUpdateOne = async (db, collectionName, data, id) => {
   return await db
     .collection(collectionName)
-    .updateOne({ _id: id }, { $set: { ...data, dateModified: new Date() } });
+    .updateOne(
+      { _id: id },
+      { $set: { ...data }, $currentDate: { dateModified: true } },
+    );
 };
-module.exports = { dbFindOne, dbInsertOne, dbFind, dbUpdateOne };
+
+const dbDeleteOne = async (db, collectionName, query) => {
+  return await db.collection(collectionName).deleteOne(query);
+};
+module.exports = { dbFindOne, dbInsertOne, dbFind, dbUpdateOne, dbDeleteOne };

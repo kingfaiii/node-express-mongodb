@@ -90,8 +90,10 @@ const viewAllUsers = async (req, res, next) => {
   }
 };
 
-exports.authenticateUser = authenticateUser;
-exports.registerUser = registerUser;
-exports.viewAllUsers = viewAllUsers;
-exports.viewUserProfile = viewUserProfile;
-exports.updateUserProfile = updateUserProfile;
+module.exports = {
+  authenticateUser,
+  registerUser,
+  viewAllUsers,
+  viewUserProfile,
+  updateUserProfile,
+};

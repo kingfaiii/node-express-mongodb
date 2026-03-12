@@ -5,6 +5,7 @@ const {
   getSingleProductService,
   updateProductService,
   deleteProductService,
+  postReviewProduct,
 } = require('../services/productServices');
 const { sendResponse } = require('../utils/responseHelper');
 
@@ -77,8 +78,27 @@ const deleteProduct = async (req, res, next) => {
     next(new httpError(error.message || 'Failed to Delete Product', 500));
   }
 };
-const postReview = (req, res) => {
-  res.status(200).json({ message: req.params.url });
+const postReview = async (req, res, next) => {
+  try {
+    const { rating, comment } = req.body;
+    const payload = { rating, comment };
+    const productId = req.params.id;
+    const userDataId = req.user.id;
+    const resultReview = await postReviewProduct(
+      userDataId,
+      productId,
+      payload,
+    );
+    return sendResponse(
+      res,
+      200,
+      true,
+      'Successfully Post Review',
+      resultReview,
+    );
+  } catch (error) {
+    next(new httpError(error.message || 'Failed to post Review', 500));
+  }
 };
 
 module.exports = {

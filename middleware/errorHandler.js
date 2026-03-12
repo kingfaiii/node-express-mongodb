@@ -1,13 +1,9 @@
-const httpError = require('../models/httpError');
-
+const { sendResponse } = require('../utils/responseHelper');
 exports.pageNotFound = (req, res, next) => {
-  const error = new httpError('Page Not Found', 404);
-  throw error;
+  return sendResponse(res, 404, false, 'Page Not Found');
 };
 
 exports.errorPagesHandler = (err, req, res, next) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  res.status(statusCode).json({
-    message: err.message,
-  });
+  return sendResponse(res, statusCode, false, err.message);
 };

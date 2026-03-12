@@ -34,4 +34,10 @@ const dbUpdateOne = async (db, collectionName, data, id) => {
 const dbDeleteOne = async (db, collectionName, query) => {
   return await db.collection(collectionName).deleteOne(query);
 };
-module.exports = { dbFindOne, dbInsertOne, dbFind, dbUpdateOne, dbDeleteOne };
+module.exports = {
+  dbFindOne,
+  dbInsertOne,
+  dbFind,
+  dbUpdateOne,
+  dbDeleteOne,
+};

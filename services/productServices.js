@@ -7,7 +7,6 @@ const {
   dbUpdateOne,
   dbDeleteOne,
 } = require('../utils/dbMethods');
-const bcrypt = require('bcryptjs');
 const { ObjectId } = require('mongodb');
 
 const deleteProductService = async (productId) => {
@@ -15,8 +14,13 @@ const deleteProductService = async (productId) => {
   const product = await dbFindOne(db, 'products', {
     _id: new ObjectId(productId),
   });
-  if (!product) {
-    throw new httpError('Product Not Found', 404);
+  if (!product) throw new httpError('Product Not Found', 404);
+
+  if (product.isFeatured || product.isActive) {
+    throw new httpError(
+      'Product is currently Active or Featured. Please set to Draft before deleting.',
+      400,
+    );
   }
   return await dbDeleteOne(db, 'products', { _id: new ObjectId(productId) });
 };
@@ -67,10 +71,46 @@ const getSingleProductService = async (productId) => {
   return product;
 };
 
+const postReviewProduct = async (userId, productId, reviewData) => {
+  const db = await connectDB();
+  const id = new ObjectId(productId);
+
+  // Check Product if Existing
+  const product = await dbFindOne(db, 'products', { _id: id });
+  if (!product) throw new httpError('Product Not Found', 404);
+
+  // Check User Already posted a review on the product
+  const user = await dbFindOne(db, 'users', { _id: new ObjectId(userId) });
+  const userReview = product.reviews.find((r) => r.userEmail === user.email);
+  if (userReview) throw new httpError('User already Review', 403);
+
+  // Gather all data of user Input data in One array
+  const userData = {
+    userEmail: user.email,
+    name: `${user.firstName} ${user.lastName}`,
+    ...reviewData,
+    dateCreated: new Date(),
+  };
+
+  const fetchProductReviews = [...product.reviews, userData];
+  const numReview = fetchProductReviews.length;
+  const rating =
+    fetchProductReviews.reduce((sum, r) => sum + r.rating, 0) / numReview;
+
+  const result = await dbUpdateOne(
+    db,
+    'products',
+    { reviews: fetchProductReviews, rating: rating, numReviews: numReview },
+    id,
+  );
+  return result;
+};
+
 module.exports = {
   createProductService,
   getAllProductService,
   getSingleProductService,
   updateProductService,
   deleteProductService,
+  postReviewProduct,
 };

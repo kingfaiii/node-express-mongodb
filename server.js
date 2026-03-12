@@ -5,7 +5,10 @@ const cors = require('cors');
 const orderPaymentRoutes = require('./routes/orderPaymentRoutes');
 const productRoutes = require('./routes/productRoutes');
 const userAuthRoutes = require('./routes/userAuthRoutes');
-const errorHandler = require('./middleware/errorHandler');
+const {
+  errorPagesHandler,
+  pageNotFound,
+} = require('./middleware/errorHandler');
 const PORT = process.env.PORT;
 
 const app = express();
@@ -15,7 +18,8 @@ app.use('/api/products', productRoutes);
 app.use('/api/users', userAuthRoutes);
 app.use('/api/orders', orderPaymentRoutes);
 
-app.use(errorHandler.errorPagesHandler);
+app.use(errorPagesHandler);
+app.use(pageNotFound);
 connectDB()
   .then(() => {
     app.listen(PORT, () => {

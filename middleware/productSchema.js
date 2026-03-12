@@ -1,7 +1,7 @@
 const { z } = require('zod');
 
 const productReview = z.object({
-  user: z.string(),
+  userEmail: z.string().email(),
   name: z.string().min(1),
   rating: z.coerce.number().int().min(1).max(5),
   comment: z.string().min(5, { message: 'Must be at least 5 characters' }),

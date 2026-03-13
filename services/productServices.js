@@ -24,6 +24,7 @@ const deleteProductService = async (productId) => {
   }
   return await dbDeleteOne(db, 'products', { _id: new ObjectId(productId) });
 };
+
 const updateProductService = async (productData, productId) => {
   const db = await connectDB();
   const product = await dbFindOne(db, 'products', {

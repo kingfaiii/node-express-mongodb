@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: import.meta.env.vite.VITE_API_BASE_URL,
+  baseURL: import.meta.env.VITE_API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -22,10 +22,14 @@ apiClient.interceptors.request.use(
 
 apiClient.interceptors.response.use(
   (response) => {
-    return response;
+    return response.data;
   },
   (error) => {
-    if (error.response && error.response.status === 401) {
+    if (
+      error.response?.status === 401 &&
+      !window.location.pathname.includes('/login')
+    ) {
+      localStorage.removeItem('token');
       window.location.href = '/login';
     }
     return Promise.reject(error);

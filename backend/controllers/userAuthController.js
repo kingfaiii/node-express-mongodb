@@ -14,10 +14,9 @@ const authenticateUser = async (req, res, next) => {
 
   try {
     const authData = await loginUserService(payload);
-    console.log(authData);
     return sendResponse(res, 200, true, 'Successfully Logged In', authData);
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

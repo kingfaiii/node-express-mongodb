@@ -4,6 +4,14 @@ exports.pageNotFound = (req, res, next) => {
 };
 
 exports.errorPagesHandler = (err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
-  return sendResponse(res, statusCode, false, err.message);
+  const statusCode = err.code || 500;
+  if (res.headerSent) {
+    return next(err);
+  }
+  return sendResponse(
+    res,
+    statusCode,
+    false,
+    err.message || 'An unknown error occurred',
+  );
 };

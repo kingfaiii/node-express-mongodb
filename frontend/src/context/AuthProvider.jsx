@@ -4,15 +4,28 @@ import { AuthContext } from './authContext';
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(() => {
-    const savedUser = localStorage.getItem('userInfo');
+    try {
+      const savedUser = localStorage.getItem('userInfo');
 
-    return savedUser ? JSON.parse(savedUser) : null;
+      // 1. THE BOUNCER: If it's empty, null, or the literal string "undefined", STOP.
+      if (!savedUser || savedUser === 'undefined') return null;
+
+      // 2. THE PARSER: Only parse if we have a real string
+      return JSON.parse(savedUser);
+    } catch (error) {
+      // 3. THE CLEANUP: If data is corrupted, wipe it and start fresh
+      console.error('Corrupted localStorage data:', error);
+      localStorage.removeItem('userInfo');
+      return null;
+    }
   });
 
   const login = async (email, password) => {
     try {
-      const { data } = await apiClient.post('/login', { email, password });
- 
+      const { data } = await apiClient.post('/users/login', {
+        email,
+        password,
+      });
       localStorage.setItem('token', data.token);
       localStorage.setItem('userInfo', JSON.stringify(data.userProfile));
 
@@ -30,7 +43,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin: user?.isAdmin }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, isAdmin: user?.isAdmin }}
+    >
       {}
       {children}
     </AuthContext.Provider>

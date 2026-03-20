@@ -36,7 +36,7 @@ const registerUser = async (req, res, next) => {
       userId: newUserId,
     });
   } catch (error) {
-    next(error);
+    return next(error);
   }
 };
 

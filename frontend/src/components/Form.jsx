@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import { AlertCircle, ArrowRight } from 'lucide-react'; // 1. Import Icons
-import logo from '../assets/logo.png'; // 2. Import your logo
+import { AlertCircle, ArrowRight, ArrowLeft } from 'lucide-react'; // Added ArrowLeft
+import logo from '../assets/logo.png';
 
 export default function Form({
   title,
@@ -12,24 +12,38 @@ export default function Form({
   footerLinkText = 'Sign up',
 }) {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-surface p-4">
+    <div className="min-h-screen flex items-center justify-center bg-surface p-4 relative">
+      <Link
+        to="/"
+        className="absolute top-8 left-8 flex items-center gap-2 text-sm font-medium text-muted hover:text-primary transition-colors group"
+      >
+        <ArrowLeft
+          size={16}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
+        Back to Store
+      </Link>
+
       <div className="w-full max-w-md">
         <div className="bg-white rounded-lg shadow-xl p-8 border border-gray-100">
-          <img
-            src={logo}
-            alt="Logo"
-            className="mx-auto w-16 h-16 mb-4 object-contain"
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Logo"
+              className="mx-auto w-16 h-16 mb-4 object-contain hover:opacity-80 transition-opacity"
+            />
+          </Link>
 
           <h2 className="text-2xl font-bold text-center text-primary mb-8 tracking-tight">
             {title}
           </h2>
 
-          {/* 2. ENHANCED ERROR: Added AlertCircle icon */}
           {error && (
-            <div className="mb-6 p-3 bg-red-50 border-l-4 border-red-500 rounded flex items-center gap-3 animate-in fade-in slide-in-from-top-1">
-              <AlertCircle size={18} className="text-red-500 shrink-0" />
-              <p className="text-red-700 text-sm font-medium">{error}</p>
+            <div className="mb-4 flex items-center gap-2 text-red-600 animate-in fade-in slide-in-from-top-1">
+              <AlertCircle size={14} className="shrink-0" />
+              <span className="text-xs font-semibold tracking-tight leading-tight">
+                {error}
+              </span>
             </div>
           )}
 

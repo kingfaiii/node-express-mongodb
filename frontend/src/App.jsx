@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import HomePage from './pages/HomePage';
 import LoginLayout from './layouts/LoginLayout';
 import RegisterForm from './components/auth/RegisterForm';
+import Dashboard from './layouts/Dashboard';
+import ProtectedRoute from './features/auth/ProtectedRoutes';
 function App() {
   return (
     <Routes>
@@ -14,6 +16,9 @@ function App() {
       <Route element={<LoginLayout />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterForm />} />
+      </Route>
+      <Route element={<ProtectedRoute adminOnly={true} />}>
+        <Route path="/dashboard" element={<Dashboard />} />
       </Route>
     </Routes>
   );

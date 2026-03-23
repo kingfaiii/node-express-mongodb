@@ -1,24 +1,36 @@
 import { Route, Routes } from 'react-router-dom';
 import './App.css';
 import MainLayout from './layouts/MainLayout';
-import Login from './pages/Login';
+import AuthLayout from './layouts/AuthLayout';
+import Login from './pages/Auth/Login';
+import Register from './pages/Auth/Register';
+
 import HomePage from './pages/HomePage';
-import LoginLayout from './layouts/LoginLayout';
-import RegisterForm from './components/auth/RegisterForm';
 import Dashboard from './layouts/Dashboard';
 import ProtectedRoute from './features/auth/ProtectedRoutes';
 function App() {
   return (
     <Routes>
+      {/* Main & Auth Layouts look good! */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
       </Route>
-      <Route element={<LoginLayout />}>
+
+      <Route element={<AuthLayout />}>
         <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<RegisterForm />} />
+        <Route path="/register" element={<Register />} />
       </Route>
+
+      {/* Admin Protected Routes */}
       <Route element={<ProtectedRoute adminOnly={true} />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        {/* 1. Remove the self-closing tag from Dashboard if it has children */}
+        <Route
+          path="/dashboard"
+          element={<Dashboard dashboardName="Dashboard" />}
+        >
+          {/* 2. IMPORTANT: Remove the leading slash. Path becomes /dashboard/products */}
+          <Route path="products" element={<div>Hello Products</div>} />
+        </Route>
       </Route>
     </Routes>
   );

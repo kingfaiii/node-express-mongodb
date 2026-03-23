@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom';
 
-const Login = () => {
+const AuthLayout = () => {
   return (
     <div className="login-layout">
       <main>
@@ -10,4 +10,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AuthLayout;

@@ -39,14 +39,14 @@ const getSingleProducts = async (req, res, next) => {
   }
 };
 const createProduct = async (req, res, next) => {
-  try {
+  try { 
     const payload = req.body;
     const createdProduct = await createProductService(payload);
     return sendResponse(res, 201, true, 'Product Created', {
       dataProduct: createdProduct,
     });
   } catch (error) {
-    next(new httpError(error.message || 'Failed to Create Product', 500));
+    return next(new httpError(error.message || 'Failed to Create Product', 500));
   }
 };
 const updateProduct = async (req, res, next) => {

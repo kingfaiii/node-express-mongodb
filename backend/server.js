@@ -18,6 +18,7 @@ const app = express();
 app.use(helmet());
 app.use(rateLimiter);
 app.use(cors(corsOptions));
+// app.options('*', cors(corsOptions)); 
 app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/users', userAuthRoutes);

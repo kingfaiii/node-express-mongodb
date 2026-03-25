@@ -4,7 +4,7 @@ import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
 import Login from './pages/Auth/Login';
 import Register from './pages/Auth/Register';
-
+import Product from './pages/Product/Product';
 import HomePage from './pages/HomePage';
 import Dashboard from './layouts/Dashboard';
 import ProtectedRoute from './features/auth/ProtectedRoutes';
@@ -29,7 +29,7 @@ function App() {
           element={<Dashboard dashboardName="Dashboard" />}
         >
           {/* 2. IMPORTANT: Remove the leading slash. Path becomes /dashboard/products */}
-          <Route path="products" element={<div>Hello Products</div>} />
+          <Route path="products" element={<Product />} />
         </Route>
       </Route>
     </Routes>

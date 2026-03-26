@@ -53,7 +53,7 @@ const getAllProductService = async () => {
     'products',
     { isActive: true },
     {
-      projection: { productDescription: 0, sku: 0, imageGallery: 0 },
+      projection: { productDescription: 0, imageGallery: 0 },
       sort: { createdAt: -1 },
       limit: 3,
     },

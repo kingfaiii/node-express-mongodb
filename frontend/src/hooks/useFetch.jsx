@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 export default function useFetch(route) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true); // Added: UX loading state
-  const [error, setError] = useState(null);    // Added: Error handling
+  const [error, setError] = useState(null); // Added: Error handling
 
   useEffect(() => {
     const fetchData = async () => {

@@ -39,14 +39,20 @@ const getSingleProducts = async (req, res, next) => {
   }
 };
 const createProduct = async (req, res, next) => {
-  try { 
-    const payload = req.body;
+  try {
+    const payload = {
+      ...req.body,
+      price: Number(req.body.price),
+      mainImage: req.file ? req.file.path : null,
+    };
     const createdProduct = await createProductService(payload);
     return sendResponse(res, 201, true, 'Product Created', {
       dataProduct: createdProduct,
     });
   } catch (error) {
-    return next(new httpError(error.message || 'Failed to Create Product', 500));
+    return next(
+      new httpError(error.message || 'Failed to Create Product', 500),
+    );
   }
 };
 const updateProduct = async (req, res, next) => {

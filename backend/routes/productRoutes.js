@@ -1,4 +1,5 @@
 const express = require('express');
+const upload = require('../config/cloudinary');
 const productController = require('../controllers/productController');
 const { validate } = require('../validators/userValidator');
 const { isAdmin, isUserLogged } = require('../middleware/authMiddleware');
@@ -10,6 +11,7 @@ router.post(
   '/',
   isUserLogged,
   isAdmin,
+  upload.single('image'),
   validate(createProduct),
   productController.createProduct,
 );

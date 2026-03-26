@@ -1,14 +1,13 @@
-@import "tailwindcss";
-
+@import 'tailwindcss';
 
 @theme {
-  --color-primary: #4B296B;      
-  --color-primary-light: #4C2C72; 
-  
-  --color-muted: #77867F;      
-  --color-accent: #87B37A;       
-  --color-success: #9CE37D;      
-  --color-surface: #F9FAFB;
+  --color-primary: #4b296b;
+  --color-primary-light: #4c2c72;
+
+  --color-muted: #77867f;
+  --color-accent: #87b37a;
+  --color-success: #9ce37d;
+  --color-surface: #f9fafb;
 }
 
 :root {
@@ -62,4 +61,3 @@
     filter: invert(1) brightness(2);
   }
 }
-

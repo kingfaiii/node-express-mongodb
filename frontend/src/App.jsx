@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Link } from 'react-router-dom';
 import './App.css';
 import MainLayout from './layouts/MainLayout';
 import AuthLayout from './layouts/AuthLayout';
@@ -23,12 +23,10 @@ function App() {
 
       {/* Admin Protected Routes */}
       <Route element={<ProtectedRoute adminOnly={true} />}>
-        {/* 1. Remove the self-closing tag from Dashboard if it has children */}
         <Route
           path="/dashboard"
           element={<Dashboard dashboardName="Dashboard" />}
         >
-          {/* 2. IMPORTANT: Remove the leading slash. Path becomes /dashboard/products */}
           <Route path="products" element={<Product />} />
         </Route>
       </Route>

@@ -6,7 +6,7 @@ const Breadcrumb = () => {
   const pathnames = location.pathname.split('/').filter((x) => x);
 
   return (
-    <nav aria-label="breadcrumb" className="mb-6">
+    <nav aria-label="breadcrumb" className="mb-6 capitalize">
       <ol className="flex items-center gap-2">
         {/* Home link */}
         <li>

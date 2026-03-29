@@ -14,6 +14,7 @@ export default function Product() {
       <div className="flex justify-start w-1/6 mb-5 ">
         <Button
           variant="primary"
+          onClick={() => (window.location.href = '/dashboard/products/add')}
           className="flex justify-center items-center gap-2"
         >
           <Plus size={20} />

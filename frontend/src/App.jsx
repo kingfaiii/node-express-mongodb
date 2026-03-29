@@ -8,6 +8,7 @@ import Product from './pages/Product/Product';
 import HomePage from './pages/HomePage';
 import Dashboard from './layouts/Dashboard';
 import ProtectedRoute from './features/auth/ProtectedRoutes';
+import AddProduct from './pages/Product/AddProduct';
 function App() {
   return (
     <Routes>
@@ -28,6 +29,7 @@ function App() {
           element={<Dashboard dashboardName="Dashboard" />}
         >
           <Route path="products" element={<Product />} />
+          <Route path="products/add" element={<AddProduct />} />
         </Route>
       </Route>
     </Routes>

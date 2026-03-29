@@ -1,41 +1,46 @@
+import LabelField from "../../../components/Fieldtemp";
+
 export default function GeneralSection() {
   return (
     <div className="space-y-4 animate-in fade-in duration-300">
       <div>
-        <label className="block text-sm font-semibold mb-1">Product Name</label>
-        <input
+        <LabelField
+          label="Product Name"
           type="text"
-          className="w-full border rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none"
+          name="productName"
+          id="productName"
           placeholder="e.g. Nike Air Max"
         />
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold mb-1">Brand</label>
-          <input
+          <LabelField
+            label="Brand"
             type="text"
-            className="w-full border rounded-lg p-2.5"
+            name="brand"
+            id="brand"
             placeholder="Brand Name"
           />
         </div>
         <div>
-          <label className="block text-sm font-semibold mb-1">
-            Categories (Comma separated)
-          </label>
-          <input
+          <LabelField
+            label="Categories (Comma separated)"
             type="text"
             className="w-full border rounded-lg p-2.5"
             placeholder="Shoes, Running"
+            name="productCategories"
+            id="productCategories"
           />
         </div>
       </div>
       <div>
-        <label className="block text-sm font-semibold mb-1">Description</label>
-        <textarea
-          rows="5"
-          className="w-full border rounded-lg p-2.5"
+        <LabelField
+          label="Description"
+          type="textarea"
+          name="productDescription"
+          id="productDescription"
           placeholder="Detailed product description..."
-        ></textarea>
+        />
       </div>
     </div>
   );

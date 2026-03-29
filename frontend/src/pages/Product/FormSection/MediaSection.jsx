@@ -35,7 +35,7 @@ export default function MediaSection() {
           {/* Example Uploaded Image with Delete Action */}
           <div className="relative aspect-square rounded-lg overflow-hidden border border-gray-100 group">
             <img
-              src="https://via.placeholder.com"
+              src=""
               alt="Gallery"
               className="w-full h-full object-cover"
             />

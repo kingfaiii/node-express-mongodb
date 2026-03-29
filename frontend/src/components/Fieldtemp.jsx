@@ -1,9 +1,20 @@
-import { Mail, Lock, User } from 'lucide-react';
+export default function LabelField({
+  label,
+  error,
+  icon: Icon,
+  name,
+  id,
+  ...props
+}) {
+  // Fallback to name if id isn't provided to ensure they stay linked
+  const fieldId = id || name;
 
-export default function LabelField({ label, error, icon: Icon, ...props }) {
   return (
     <div className="space-y-1">
-      <label className="text-sm font-semibold text-primary/80 ml-1">
+      <label
+        htmlFor={fieldId} // Links to the input ID
+        className="text-sm font-semibold text-primary/80 ml-1 cursor-pointer"
+      >
         {label}
       </label>
 
@@ -19,13 +30,18 @@ export default function LabelField({ label, error, icon: Icon, ...props }) {
 
         <input
           {...props}
-          className={`w-full py-2.5 rounded-lg border bg-surface transition-all
+          id={fieldId} // Required for the label 'for' attribute
+          name={name} // Required for browser autofill and form submission
+          className={`w-full py-2.5 rounded-lg border bg-surface transition-all outline-none focus:ring-2
             ${Icon ? 'pl-10 pr-4' : 'px-4'}
-            ${error ? 'border-red-500 focus:ring-red-100' : 'border-primary-light focus:ring-accent/30 focus:border-accent'}`}
+            ${
+              error
+                ? 'border-red-500 focus:ring-red-100'
+                : 'border-primary-light focus:ring-accent/30 focus:border-accent'
+            }`}
         />
       </div>
 
-      {/* THE FEEDBACK: Show the field-specific error */}
       {error && (
         <p className="text-[10px] font-bold text-red-500 ml-1 animate-in fade-in slide-in-from-top-1">
           {error}

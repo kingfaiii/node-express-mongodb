@@ -4,14 +4,19 @@ exports.pageNotFound = (req, res, next) => {
 };
 
 exports.errorPagesHandler = (err, req, res, next) => {
-  const statusCode = err.code || 500;
-  if (res.headerSent) {
-    return next(err);
+  const statusCode = Number.isInteger(err.status) ? err.status : 500;
+
+  // Log the specific Multer code for your own debugging
+  if (err.code === 'LIMIT_UNEXPECTED_FILE') {
+    return res.status(400).json({
+      success: false,
+      message:
+        'Unexpected field name for file upload. Check your form-data key.',
+    });
   }
-  return sendResponse(
-    res,
-    statusCode,
-    false,
-    err.message || 'An unknown error occurred',
-  );
+
+  res.status(statusCode).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
 };

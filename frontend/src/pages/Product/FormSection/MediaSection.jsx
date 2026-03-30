@@ -1,6 +1,9 @@
 import { Upload, X, Image as ImageIcon } from 'lucide-react';
-
+// import { useState } from 'react';
 export default function MediaSection() {
+  // const [mainImage, setMainImage] = useState(null);
+  // const [galleryImages, setGalleryImages] = useState([]);
+
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* 1. MAIN PRODUCT IMAGE (The 'Face' of the product) */}

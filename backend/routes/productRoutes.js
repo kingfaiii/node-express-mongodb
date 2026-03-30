@@ -11,7 +11,7 @@ router.post(
   '/',
   isUserLogged,
   isAdmin,
-  upload.single('image'),
+  upload.single('mainImage'),
   validate(createProduct),
   productController.createProduct,
 );

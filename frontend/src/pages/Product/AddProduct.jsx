@@ -4,9 +4,11 @@ import { Package, Image as ImageIcon, Settings, Save } from 'lucide-react';
 import GeneralSection from './FormSection/GeneralSection';
 import InventorySection from './FormSection/InventorySection';
 import MediaSection from './FormSection/MediaSection';
+import { useCreateProduct } from '../../features/products/useCreate';
 export default function AddProduct() {
   const [activeTab, setActiveTab] = useState('general');
-
+  const { formData, handleChange, createProduct, loading, errors } =
+    useCreateProduct();
   const tabs = [
     { id: 'general', label: 'General Info', icon: <Package size={18} /> },
     { id: 'inventory', label: 'Pricing & Stock', icon: <Settings size={18} /> },
@@ -18,13 +20,27 @@ export default function AddProduct() {
       {/* Header with Breadcrumbs & Action */}
       <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 md:gap-8 mb-8">
         <div className="flex-1">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">Add New Product</h1>
+          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1">
+            Add New Product
+          </h1>
           <p className="text-gray-500 text-sm md:text-base">
             Create a new listing in your store
           </p>
-        </div>  
-        <Button variant="primary" className="flex items-center justify-center gap-2 px-6 py-3 w-full md:w-auto">
-          <Save size={18} /> Save Product
+        </div>
+        <Button
+          variant="primary"
+          onClick={createProduct}
+          disabled={loading}
+          className="flex items-center justify-center gap-2 px-6 py-3 w-full md:w-auto"
+        >
+          <Save size={18} />{' '}
+          {loading ? (
+            'Saving...'
+          ) : (
+            <>
+              <Save size={18} /> Save Product
+            </>
+          )}
         </Button>
       </div>
 
@@ -48,10 +64,28 @@ export default function AddProduct() {
 
         {/* Form Content Area */}
         <main className="flex-1 bg-white border border-gray-200 rounded-xl shadow-sm p-8">
-          <form className="space-y-6">
-            {activeTab === 'general' && <GeneralSection />}
-            {activeTab === 'inventory' && <InventorySection />}
-            {activeTab === 'media' && <MediaSection />}
+          <form className="space-y-6" onSubmit={createProduct}>
+            {activeTab === 'general' && (
+              <GeneralSection
+                formData={formData}
+                onChange={handleChange}
+                errors={errors}
+              />
+            )}
+            {activeTab === 'inventory' && (
+              <InventorySection
+                formData={formData}
+                onChange={handleChange}
+                errors={errors}
+              />
+            )}
+            {activeTab === 'media' && (
+              <MediaSection
+                formData={formData}
+                onChange={handleChange}
+                errors={errors}
+              />
+            )}
           </form>
         </main>
       </div>

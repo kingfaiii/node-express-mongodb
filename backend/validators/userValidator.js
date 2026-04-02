@@ -2,7 +2,7 @@ const { sendResponse } = require('../utils/responseHelper');
 const { cleanupCloudinaryFiles } = require('../utils/fileHelper');
 
 const validate = (schema) => async (req, res, next) => {
-  // 1. Merge File path into Body for Zod to see
+  // 1. Merge File path into Body ONLY if a file exists
   const dataToValidate = {
     ...req.body,
     ...(req.file && { [req.file.fieldname]: req.file.path }),
@@ -11,19 +11,21 @@ const validate = (schema) => async (req, res, next) => {
   const result = await schema.safeParseAsync(dataToValidate);
 
   if (!result.success) {
-    // 2. Use our Utility to wipe the "orphan" files
-    await cleanupCloudinaryFiles(req);
+    // 🚀 THE FIX: Only run cleanup if there's actually a file to clean!
+    if (req.file || req.files) {
+      await cleanupCloudinaryFiles(req);
+    }
 
     return sendResponse(
       res,
       400,
       false,
-      { message: 'Validation Error' },
+      'Validation Error', // Pass a simple string if that's what your helper expects
       { errors: result.error.flatten().fieldErrors },
     );
   }
 
-  // 3. Hydrate body with clean/coerced data and move on
+  // 3. Hydrate body with clean/coerced data
   req.body = result.data;
   next();
 };

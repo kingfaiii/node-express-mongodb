@@ -50,9 +50,7 @@ const createProduct = async (req, res, next) => {
       dataProduct: createdProduct,
     });
   } catch (error) {
-    return next(
-      new httpError(error.message || 'Failed to Create Product', 500),
-    );
+    return next(error);
   }
 };
 const updateProduct = async (req, res, next) => {

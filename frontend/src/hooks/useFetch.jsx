@@ -14,7 +14,6 @@ export default function useFetch(route) {
         setData(response.data);
       } catch (err) {
         setError(err);
-        console.log('Error fetching data:', err);
       } finally {
         setLoading(false);
       }

@@ -4,7 +4,10 @@ exports.pageNotFound = (req, res, next) => {
 };
 
 exports.errorPagesHandler = (err, req, res, next) => {
-  const statusCode = Number.isInteger(err.status) ? err.status : 500;
+  const statusCode =
+    Number.isInteger(err.status) || Number.isInteger(err.statusCode)
+      ? err.status || err.statusCode
+      : 500;
 
   // Log the specific Multer code for your own debugging
   if (err.code === 'LIMIT_UNEXPECTED_FILE') {

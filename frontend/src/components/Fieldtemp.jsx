@@ -4,7 +4,9 @@ export default function LabelField({
   icon: Icon,
   name,
   id,
+  type,
   ...props
+  
 }) {
   // Fallback to name if id isn't provided to ensure they stay linked
   const fieldId = id || name;
@@ -21,25 +23,40 @@ export default function LabelField({
       <div className="relative group">
         {Icon && (
           <div
-            className={`absolute left-3 top-1/2 -translate-y-1/2 transition-colors 
+            className={`absolute left-3 ${type === 'textarea' ? 'top-3' : 'top-1/2 -translate-y-1/2'} transition-colors 
             ${error ? 'text-red-400' : 'text-muted group-focus-within:text-primary'}`}
           >
             <Icon size={18} />
           </div>
         )}
 
-        <input
-          {...props}
-          id={fieldId} // Required for the label 'for' attribute
-          name={name} // Required for browser autofill and form submission
-          className={`w-full py-2.5 rounded-lg border bg-surface transition-all outline-none focus:ring-2
-            ${Icon ? 'pl-10 pr-4' : 'px-4'}
-            ${
-              error
-                ? 'border-red-500 focus:ring-red-100'
-                : 'border-primary-light focus:ring-accent/30 focus:border-accent'
-            }`}
-        />
+        {type === 'textarea' ? (
+          <textarea
+            {...props}
+            id={fieldId}
+            name={name}
+            className={`w-full py-2.5 rounded-lg border bg-surface transition-all outline-none focus:ring-2 resize-vertical min-h-[100px]
+              ${Icon ? 'pl-10 pr-4' : 'px-4'}
+              ${
+                error
+                  ? 'border-red-500 focus:ring-red-100'
+                  : 'border-primary-light focus:ring-accent/30 focus:border-accent'
+              }`}
+          />
+        ) : (
+          <input
+            {...props}
+            id={fieldId}
+            name={name}
+            className={`w-full py-2.5 rounded-lg border bg-surface transition-all outline-none focus:ring-2
+              ${Icon ? 'pl-10 pr-4' : 'px-4'}
+              ${
+                error
+                  ? 'border-red-500 focus:ring-red-100'
+                  : 'border-primary-light focus:ring-accent/30 focus:border-accent'
+              }`}
+          />
+        )}
       </div>
 
       {error && (

@@ -33,8 +33,13 @@ exports.createProduct = z.object({
     .url({ message: 'Invalid Image URL' }),
   imageGallery: z.array(z.string().url()).default([]),
   imageAlt: z.string().optional().default('Product Images'),
-  sku: z.string().optional(),
-  slug: z.string().toLowerCase().trim().optional(),
+  sku: z.string().toUpperCase().trim().optional(), // Normalize SKUs to uppercase
+  slug: z
+    .string()
+    .toLowerCase()
+    .trim()
+    .optional()
+    .transform((val) => (val ? val.replace(/\s+/g, '-') : undefined)),
   brand: z
     .string()
     .min(1, { message: 'Your Product Needs a Brand Name' })

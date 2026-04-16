@@ -8,6 +8,7 @@ const {
   postReviewProduct,
 } = require('../services/productServices');
 const { sendResponse } = require('../utils/responseHelper');
+const convertToSlug = require('../utils/convertToSlug');
 
 const getAllProducts = async (req, res, next) => {
   try {
@@ -40,8 +41,14 @@ const getSingleProducts = async (req, res, next) => {
 };
 const createProduct = async (req, res, next) => {
   try {
+    const { productName, slug, price, ...rest } = req.body;
+    if (!productName) {
+      return sendResponse(res, 400, false, 'Product name is required');
+    }
     const payload = {
-      ...req.body,
+      ...rest,
+      productName,
+      slug: slug && slug.trim() !== '' ? slug : convertToSlug(productName),
       price: Number(req.body.price),
       mainImage: req.file ? req.file.path : null,
     };
@@ -56,7 +63,26 @@ const createProduct = async (req, res, next) => {
 const updateProduct = async (req, res, next) => {
   try {
     const productId = req.params.id;
-    const productData = req.body;
+    const normalize = (key, value) => {
+      if (value === 'true') return true;
+      if (value === 'false') return false;
+      if (key === 'price' || key === 'inventoryStock') return Number(value);
+      return value;
+    };
+
+    const rawBody = Object.entries(req.body).reduce((acc, [key, value]) => {
+      acc[key] = normalize(key, value);
+      return acc;
+    }, {});
+
+    const { productName, slug, price, ...rest } = rawBody;
+    const productData = {
+      ...rest,
+      productName,
+      slug: slug && slug.trim() !== '' ? slug : convertToSlug(productName),
+      price: Number(price),
+      ...(req.file && { mainImage: req.file.path }),
+    };
     const updateProductData = await updateProductService(
       productData,
       productId,

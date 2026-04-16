@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage';
 import Dashboard from './layouts/Dashboard';
 import ProtectedRoute from './features/auth/ProtectedRoutes';
 import AddProduct from './pages/Product/AddProduct';
+import SingleProduct from './pages/Product/SingleProduct';
 function App() {
   return (
     <Routes>
@@ -30,6 +31,7 @@ function App() {
         >
           <Route path="products" element={<Product />} />
           <Route path="products/add" element={<AddProduct />} />
+          <Route path="products/edit/:id" element={<SingleProduct />} />
         </Route>
       </Route>
     </Routes>

@@ -33,7 +33,17 @@ const updateProductService = async (productData, productId) => {
   if (!product) {
     throw new httpError('Product Not Found', 404);
   }
-  const { _id, reviews, rating, numReviews, ...safetoUpdate } = productData;
+
+  const {
+    _id,
+    reviews,
+    rating,
+    numReviews,
+    createdAt,
+    dateModified,
+    ...safetoUpdate
+  } = productData;
+
   await dbUpdateOne(db, 'products', safetoUpdate, product._id);
   return { ...product, ...safetoUpdate };
 };

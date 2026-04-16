@@ -23,11 +23,15 @@ const dbFind = async (db, collectionName, query = {}, options = {}) => {
 };
 
 const dbUpdateOne = async (db, collectionName, data, id) => {
+  const updateData = { ...data };
+  delete updateData.dateModified;
+  delete updateData.createdAt;
+
   return await db
     .collection(collectionName)
     .updateOne(
       { _id: id },
-      { $set: { ...data }, $currentDate: { dateModified: true } },
+      { $set: updateData, $currentDate: { dateModified: true } },
     );
 };
 

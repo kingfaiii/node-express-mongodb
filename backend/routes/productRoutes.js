@@ -15,7 +15,13 @@ router.post(
   validate(createProduct),
   productController.createProduct,
 );
-router.put('/:id', isUserLogged, isAdmin, productController.updateProduct);
+router.put(
+  '/:id',
+  isUserLogged,
+  isAdmin,
+  upload.single('mainImage'),
+  productController.updateProduct,
+);
 router.delete('/:id', isUserLogged, isAdmin, productController.deleteProduct);
 router.post('/:id/reviews', isUserLogged, productController.postReview);
 module.exports = router;
